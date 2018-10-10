@@ -10,38 +10,62 @@ namespace Library
     {
         private String name;
         private int id;
-        private int contactNo;
+        private int contactnumber;
+        private string designation;
 
-    }
+        public Person(string value)
+            {
+            this.designation=value;
+            get
+            }
 
-    public class Student : Person
-    {
+        public virtual void GetDesignation()
+            {
+            Console.WriteLine("Current User is: ", +designation);
+            }
 
+        public void SetName( string Name)
+            {
+            if(string.IsNullOrEmpty(name))
+                {
+                throw new Exception("Entered Invalid Name");
+                }
+                this.name=Name;
+            }
+        public string GetName()
+            {
+            if(string.IsNullOrEmpty(this.name))
+                {
+                  return "No Name";
+                }
+            return this.name;
+            }
 
-    }
-
-
-    public class Admin : Person
-    {
-        private List<String> bookname = new List<String>();
-        private List<String> studentname = new List<String>();
-        private List<int> studentid = new List<int>();
-        private List<DateTime> issuedate = new List<DateTime>();
-
-        public void LendBooks(string bookName, string studentName, int studentId, DateTime date)
-        {
-            bookname.Add(bookName.ToUpper());
-            studentname.Add(studentName.ToUpper());
-            studentid.Add(studentId);
-            issuedate.Add(date);
-
-            return;
-        }
-
-        public void AuditBooks()
-        {
-
-        }
-
-    }
+        public int SetId(int Id)
+            {
+            if(id<0)
+                {
+                 throw new Exception("Id can not be negative.");
+                }              
+            this.id=Id;
+            }
+        public int GetId()
+            {
+            return this.id;
+            }
+        
+        public void SetContactNumber(int ContactNumber)
+            {}
+        public int GetContactNumber()
+                {
+            return this.contactnumber ;
 }
+
+
+    }
+
+}
+
+
+   
+
