@@ -7,25 +7,6 @@ namespace Library
         static void Main(string[] args)
         {
 
-            #region booksDebug
-            //Books bk = new Books();
-            //bk.AddBook("Clash of Kings", "George R.R Martin", "Fantasy", 2005, 6);
-            //bk.AddBook("Dance of Ice and Fire", "George R.R Martin", "Fantasy", 2011, 5);
-            //bk.AddBook("Game of Thrones", "George R.R Martin", "Fantasy", 1994, 11);
-            //bk.AddBook("Winds of Winter", "George R.R Martin", "Fantasy", 2019, 25);
-            //bk.AddBook("Half Blood Prince", "J.K Rowling", "Fantasy", 2004, 8);
-            //bk.AddBook("Deathly Hallows", "J.K Rowling", "Fantasy", 2007, 4);
-            //bk.AddBook("Prisoner Of Askabahen", "J.K Rowling", "Fantasy", 2005, 8);
-            //bk.AddBook("Goblet Of Fire", "J.K Rowling", "Fantasy", 20011, 5);
-            //Console.WriteLine("Search for Name");
-            //bk.SearchBooks("of", 1);
-            //Console.WriteLine("Search for Author");
-            //bk.SearchBooks("Martin", 2);
-            //Console.WriteLine("Search for Year");
-            //bk.SearchBooks("2005", 4);
-            //Console.WriteLine("Search for Genere");
-            //bk.SearchBooks("Fantasy", 3);
-            #endregion
             #region userInterface
             Console.WriteLine("Try Help for available commands or Exit to quit application");
             var userInput = Console.ReadLine();
