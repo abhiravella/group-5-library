@@ -13,7 +13,6 @@ namespace Library
         private List<int> year = new List<int>();
         private List<int> id = new List<int>();
         private List<int> available = new List<int>();
-
         #endregion
         #region methods
         /*
@@ -33,7 +32,7 @@ namespace Library
         /*
          *  Adds a new book to the library. If one of the field is null pass it as empty string or null
          */
-        public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
+        public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear,int bookavailable)
         {
             name.Add(bookName.ToUpper());
             author.Add(bookAuthor.ToUpper());
@@ -53,7 +52,7 @@ namespace Library
          *  4 = year
          *  5 = id   
          */
-        public void SearchBooks(string searchValue, int field)
+        public void SearchBooks(string searchValue , int field)
         {
             List<int> indexes = new List<int>();
             switch (field)
@@ -93,7 +92,7 @@ namespace Library
         private List<int> SearchResult(string value, List<String> searchList)
         {
             List<int> resultIndex = new List<int>();
-            for (int i = 0; i < searchList.Count; i++)
+            for (int i = 0;i < searchList.Count; i++)           
             {
                 if (searchList[i].Contains(value))
                 {
@@ -103,11 +102,11 @@ namespace Library
             return resultIndex;
         }
         private List<int> SearchResult(int value, List<int> searchList)
-        {
+        {        
             List<int> resultIndex = new List<int>();
             for (int i = 0; i < searchList.Count; i++)
             {
-                if (searchList[i] == value)
+                if (searchList[i]==value)
                 {
                     resultIndex.Add(i);
                 }
@@ -119,7 +118,7 @@ namespace Library
          */
         private void Display(List<int> indexes)
         {
-            if (indexes.Count == 0)
+            if(indexes.Count == 0)
             {
                 Console.WriteLine("Search didn't return anything");
             }
@@ -128,8 +127,8 @@ namespace Library
                 var iterator = 1;
                 foreach (var item in indexes)
                 {
-                    Console.WriteLine("Book {0}", iterator);
-                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenere: {2}\nYear: {3}\nAvailable Copies:{5}", name[item], genere[item], author[item], year[item], id[item], available[item]);
+                    Console.WriteLine("Book {0}",iterator);
+                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenere: {2}\nYear: {3}\nAvailable Copies:{5}",name[item],genere[item],author[item],year[item],id[item],available[item]);
                     iterator++;
                 }
             }
