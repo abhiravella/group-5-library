@@ -35,28 +35,47 @@ namespace Library
          // Adding books to currentbooks bookId,Issuedate
         public void AddBooks(int BookId, DateTime IssueDate)
         {
-            foreach (var i in currentbooks)
-            {
-                currentbooks.Add(new currentBookDetails { bookId = BookId, issuedDay = IssueDate });
-            }
+             currentbooks.Add(new currentBookDetails { bookId = BookId, issuedDay = IssueDate });
         }
-        
-         /*
-         *  Check return true or false
-         *  current date should be less than IssueDate+15
-         *  Add function in Datetime
-         */
 
-        public void CheckDueDate(DateTime IssueDate)
+        /*
+        *  Check return true or false
+        *  current date should be less than IssueDate+15
+        *  Add function in Datetime
+        */
+
+       
+        public bool CheckDueDate()
         {
-           if( currentDate<IssueDate.AddDays(timePeriod))
-           {
-                Console.WriteLine("No Dues. Can choose some books.");
-           }
-           else
-           {
-                Console.WriteLine("Need to return books.");
-           }
+
+            bool flag =true;
+           
+
+            foreach (var item in currentbooks)
+            {
+                if (currentDate <item.issuedDay.AddDays(timePeriod))
+                {
+                    flag = true;
+                }
+                else
+                {
+                    flag = false;
+                    break;
+                }
+            }
+                         
+            return ( flag && (CurrentCount() < maxbooklimit));
+        }
+
+        public List<string> Count(int BoodId,DateTime IssueDate)
+        {
+            List<string> temp = new List<string>() ;
+            foreach(var i in currentbooks)
+            {
+                temp.Add("" + i.bookId + "," + i.issuedDay);
+
+            }
+            return temp;
         }
     }
 }
