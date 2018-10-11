@@ -14,52 +14,48 @@ namespace Library
         private string designation;
 
         public Person(string value)
-            {
+        {
             this.designation=value;
-            get
-            }
-
-        public virtual void GetDesignation()
-            {
-            Console.WriteLine("Current User is: ", +designation);
-            }
+        }
+        public string GetDesignation()
+        {          
+            Console.WriteLine("Current User is: {0}",designation);
+            return designation;
+        }
 
         public void SetName( string Name)
-            {
+        {
             if(string.IsNullOrEmpty(name))
-                {
+            {
                 throw new Exception("Entered Invalid Name");
-                }
+            }
                 this.name=Name;
-            }
+        }
         public string GetName()
-            {
+        {
             if(string.IsNullOrEmpty(this.name))
-                {
+            {
                   return "No Name";
-                }
+            }
             return this.name;
-            }
+        }
 
-        public int SetId(int Id)
-            {
-            if(id<0)
-                {
-                 throw new Exception("Id can not be negative.");
-                }              
+        public void SetId(int Id)
+        {
             this.id=Id;
-            }
+        }
         public int GetId()
-            {
+        {
             return this.id;
-            }
-        
+        }
         public void SetContactNumber(int ContactNumber)
-            {}
+        {
+            this.contactnumber = ContactNumber;
+        }
         public int GetContactNumber()
-                {
+        {
             return this.contactnumber ;
-}
+        }
 
 
     }

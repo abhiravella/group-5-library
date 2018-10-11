@@ -13,52 +13,38 @@ namespace Library
         private List<DateTime> datetime = new List<DateTime>();
         private int bookcount;
 
-        public Admin(string value)
-            {
+        public Admin(string value):base(value)
+        {
             
-            }
+        }        
 
-        private GetDesignation(string value)
+         /*    Updates count of books after lending books to patron    */             
+        public string LendBooks(int bookId, int patronId)
+        {
+
+            // calling check method in patron class
+            // calling checkBookAvailability in Books class
+
+            bool checkBook = true;
+            if (checkBook)
             {
-            
+                string currentRecord = "";
+                currentRecord += "" + bookId;
+                //    bookid.Add(bookId);
+                currentRecord += "" + patronId;
+                //patrontid.Add(patronId);
+                currentRecord += "" + DateTime.Today.ToString("D");
+                //datetime.Add(DateTime.Today);
+                // Call Add method in patron class
+                // Calling method in books to update the count
+                Console.WriteLine("Calling update method in books");
+                return currentRecord;
             }
-
-         /*    Updates count of books after lending books to patron    */
-
-        private static void updateCount()
-        {
-            bookCount--;
-        }
-
-      
-        public void LendBooks(string bookId, int patronId)
-        {
-                        
-            bookid.Add(bookId);
-            patrontid.Add(patronId);
-            dateTime=DateTime.Now();
-            datetime.Add(dateTime);
-
-            return;
-        }
-        
-
-        public void AuditBooks()
-        {
-            DueDate();
-        }
-        public void DueDate(DateTime dateTime )
-        {
-
-        return;      
-        }
-
-        string var=new string();
-        var=Books.AddBooks(string bookname, string author,string bookgenere);
-
-
-
-
-        
+            else
+            {
+                return " ";
+            }
+        }        
+                
     }
 }
