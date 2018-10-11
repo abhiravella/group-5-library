@@ -9,9 +9,8 @@ namespace Library
         {
             //Add Books to file
             BookReader.Add("bookName", "bookAuthor", "bookGenere", 1997, 1);
-            //Read Books and save to variable books
+            //Read Bo oks and save to variable books
             Books books = BookReader.Read("Books.txt");
-        
             List<String> username = new List<String> {"abhiravilla","kim","Robert","smith","swapna"};
             List<String> password = new List<String> { "AZaz09$$", "AZaz09$$", "AZaz09$$", "AZaz09$$", "AZaz09$$" };
             List<String> designation = new List<String> { "Admin", "Patron", "Patron", "Admin", "Patron" };
@@ -123,33 +122,34 @@ namespace Library
                             {
                                 if (userInput.Split('-').Length == 2)
                                 {
-                                    int sepCount = 2;
-                                    string option = userInput.Split('-')[1];
-                                    string[] optionValue = option.Split(new char[] { ' ' }, sepCount);
+                                    var sepCount = 2;
+                                    var option = userInput.Split('-')[1];
+                                    var optionValue = option.Split(new char[] { ' ' }, sepCount);
+                                    var tempVar = 0;
                                     switch (optionValue[0])
                                     {
                                         case "n":
-                                            Console.WriteLine("Calling Search function with value {0} and code 1.",optionValue[1].Trim());
-                                            //bk.SearchBooks(optionValue[1].Trim(),1);
+                                            books.SearchBooks(optionValue[1].Trim(),1);
                                             break;
                                         case "g":
-                                            Console.WriteLine("Calling Search function with value {0} and code 3.", optionValue[1].Trim());
-                                            //bk.SearchBooks(optionValue[1].Trim(),3);
+                                            books.SearchBooks(optionValue[1].Trim(), 3);
                                             break;
                                         case "a":
-                                            Console.WriteLine("Calling Search function with value {0} and code 2.", optionValue[1].Trim());
-                                            //bk.SearchBooks(optionValue[1].Trim(),2);
+                                            books.SearchBooks(optionValue[1].Trim(), 2);
                                             break;
                                         case "y":
-                                            Console.WriteLine("Calling Search function with value {0} and code 4.", optionValue[1].Trim());
-                                            //bk.SearchBooks(optionValue[1].Trim(),4);
+                                            if (int.TryParse(optionValue[1].Trim(), out tempVar))
+                                            {
+                                                books.SearchBooks(optionValue[1].Trim(), 4);
+                                            }
                                             break;
                                         case "v":
-                                            Console.WriteLine("Calling Search function with value {0} and code 5.", optionValue[1].Trim());
-                                            //bk.SearchBooks(optionValue[1].Trim(),5);
+                                            if (int.TryParse(optionValue[1].Trim(), out tempVar))
+                                            {
+                                                books.SearchBooks(optionValue[1].Trim(), 5);
+                                            }
                                             break;
                                         default:
-                                            Console.WriteLine("Invalid Option. Try Help -Search for more information");
                                             break;
                                     }
                                 }
@@ -189,8 +189,9 @@ namespace Library
                                         var bookName = "";
                                         var bookAuthor = "";
                                         var bookGenere = "";
-                                        var bookYear = "";
-                                        var bookAvailable = "";
+                                        var bookYear = 0;
+                                        var bookAvailable = 1;
+                                        var tempVar = 0;
                                         var userInputOptions = userInput.Split('-');
                                         for (int i = 1; i < 6; i++)
                                         {
@@ -206,23 +207,30 @@ namespace Library
                                                     bookAuthor = userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim();
                                                     break;
                                                 case "y":
-                                                    bookYear = userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim();
+                                                    if(int.TryParse(userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim(),out tempVar))
+                                                    {
+                                                        bookYear = tempVar;
+                                                    }
+                                                    
                                                     break;
                                                 case "v":
-                                                    bookAvailable = userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim();
+                                                    if (int.TryParse(userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim(), out tempVar))
+                                                    {
+                                                        bookAvailable = tempVar;
+                                                    }
                                                     break;
                                                 default:
                                                     break;
                                             }                                            
                                         }
-                                        if(String.IsNullOrEmpty(bookName)|| String.IsNullOrEmpty(bookGenere) || String.IsNullOrEmpty(bookAuthor) || String.IsNullOrEmpty(bookYear) || String.IsNullOrEmpty(bookAvailable))
+                                        if(String.IsNullOrEmpty(bookName)|| String.IsNullOrEmpty(bookGenere) || String.IsNullOrEmpty(bookAuthor) || bookYear == 0 || bookAvailable == 0)
                                         {
                                             Console.WriteLine("Invalid options or command. Try Help -Add for more information");
                                         }
                                         else
                                         {
-                                            Console.WriteLine("calling add function with values {0},{1},{2},{3},{4}",bookName,bookAuthor,bookGenere,bookYear,bookAvailable);
-                                            //bk.AddBook(bookName,bookAuthor,bookGenere,bookYear,bookAvailable);
+                                            //Console.WriteLine("calling add function with values {0},{1},{2},{3},{4}",bookName,bookAuthor,bookGenere,bookYear,bookAvailable);
+                                            books.AddBook(bookName,bookAuthor,bookGenere,Convert.ToInt32(bookYear),Convert.ToInt32(bookAvailable));
                                         }
                                     }
                                     else
@@ -237,7 +245,54 @@ namespace Library
                             }
                             else if (userInput.Contains("Lend"))
                             {
+                                if (designation[username.IndexOf(usernameInput)] == "Admin")
+                                {
+                                    if (userInput.Split('-').Length == 3 )
+                                    {
+                                        var bookId = 0;
+                                        var PatronId = 0;
+                                        var tempVar = 0;
+                                        var userInputOptions = userInput.Split('-');
+                                        for (int i = 1; i < 3; i++)
+                                        {
+                                            switch (userInputOptions[i].Split(new char[] { ' ' }, 2)[0])
+                                            {
+                                                case "bi":
+                                                    if (int.TryParse(userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim(), out tempVar))
+                                                    {
+                                                        bookId = tempVar;
+                                                    }
+                                                    break;
+                                                case "pi":
+                                                    if (int.TryParse(userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim(), out tempVar))
+                                                    {
+                                                        PatronId = tempVar;
+                                                    }
 
+                                                    break;
+                                                default:
+                                                    break;
+                                            } 
+                                        }
+                                        if (bookId  == 0 || PatronId == 0)
+                                        {
+                                            Console.WriteLine("Invalid options or command. Try Help -Lend for more information");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("calling lend function with values {0},{1}",bookId,PatronId);
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid number of options for command Lend. Try Help -Lend for more information");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Your account doesn't have privilages to execute this command");
+                                }
                             }
                             else if (userInput.Contains("Audit"))
                             {
@@ -271,5 +326,6 @@ namespace Library
             }
             Console.ReadKey();
         }
+           
     }
 }
