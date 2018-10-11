@@ -11,20 +11,23 @@ namespace Library
             BookReader.Add("bookName", "bookAuthor", "bookGenere", 1997, 1);
             //Read Books and save to variable books
             Books books = BookReader.Read("Books.txt");
-        }
+        
             List<String> username = new List<String> {"abhiravilla","kim","Robert","smith","swapna"};
             List<String> password = new List<String> { "AZaz09$$", "AZaz09$$", "AZaz09$$", "AZaz09$$", "AZaz09$$" };
             List<String> designation = new List<String> { "Admin", "Patron", "Patron", "Admin", "Patron" };
             Books bk = new Books();
-            Console.WriteLine("Enter your username and password");
+            Console.WriteLine("Welome to Group 5's Library! \n\nEnter your username and password");
+            Console.WriteLine("Username:");
             var usernameInput = Console.ReadLine();
+            Console.WriteLine("Password:");
             var passwordInput = Console.ReadLine();
+                        
             if (username.Contains(usernameInput))
             {
                 if (password[username.IndexOf(usernameInput)].Equals(passwordInput))
                 {
                     #region userInterface
-                    Console.WriteLine("Try Help for available commands or Exit to quit application");
+                    Console.WriteLine("\nType the word Help for available commands or Exit to leave the library");
                     var userInput = Console.ReadLine();
                     while (true)
                     {
@@ -41,24 +44,23 @@ namespace Library
                                     var userCommand = userInput.Split('-')[1];
                                     if (userCommand.Equals("Search"))
                                     {
-                                        Console.WriteLine("Command: Search");
-                                        Console.WriteLine("Helps user search the library based on his criteria.\n" +
-                                            "The following are the options for this command\n" +
-                                            "-n name of the book\n" +
-                                            "-a author name of the book\n" +
-                                            "-g genere of the book\n" +
-                                            "-y published year of the book\n" +
+                                        Console.WriteLine("\nCommand: Search");
+                                        Console.WriteLine("Use any of the criteria below to search the library.\n\t" +
+                                            "-n name of the book\n\t" +
+                                            "-a author name of the book\n\t" +
+                                            "-g genere of the book\n\t" +
+                                            "-y published year of the book\n\t" +
                                             "-v availability of the book\n");
                                     }
                                     else if (userCommand.Equals("Current"))
                                     {
                                         Console.WriteLine("Command : Current");
-                                        Console.WriteLine("Retrieves the current books held by the patron. This doesn't have any options");
+                                        Console.WriteLine("Retrieves the current books held by the Patron. This doesn't have any options");
                                     }
                                     else if (userCommand.Equals("History"))
                                     {
                                         Console.WriteLine("Command : History");
-                                        Console.WriteLine("Retrieves the patrons history of borrowing books.");
+                                        Console.WriteLine("Retrieves the Patron's history of borrowing books.");
                                     }
                                     else if (userCommand.Equals("Add"))
                                     {
@@ -75,7 +77,7 @@ namespace Library
                                     else if (userCommand.Equals("Lend"))
                                     {
                                         Console.WriteLine("Command : Lend");
-                                        Console.WriteLine("Helps Admin in lending a book to Patron.\n" +
+                                        Console.WriteLine("Helps Admin in lending a book to a Patron.\n" +
                                             "The following are the required paramters for this command\n" +
                                             "-bi ID of the book being lent\n" +
                                             "-pi ID of the patron to whom book is being lent\n" +
@@ -89,35 +91,37 @@ namespace Library
                                     else
                                     {
                                         Console.WriteLine("Couldn't find the command '{0}'.", userCommand);
-                                        Console.WriteLine("The commands available for Patron\n\t" +
-                                            "Search [options]   ----- Searches for books with given name\n\t" +
-                                            "Current [options]  ----- Returns the books currently held by the user\n\t" +
-                                            "History [options]  ----- Returns the list of books borrowed by the Patron\n" +
-                                            "The commands available for Admin\n\t" +
-                                            "Add [options]   -----  Adds a new book to the list\n\t" +
-                                            "Lend [options]  -----  Lends the given book to the Patron\n\t" +
-                                            "Audit [options] -----  Audits the books lent to all Patrons\n\t" +
-                                            "Search [options]   ----- Searches for books with given name");
+                                        Console.WriteLine("\nThe commands available for Patron\n\t" +
+                                            "Command Definitions:\n\t" +
+                                            "Search  ----- Searches for books with given name\n\t" +
+                                            "Current ----- Returns the books currently held by the user\n\t" +
+                                            "History ----- Returns the list of books borrowed by the Patron\n" +
+                                            "\nThe commands available for Admin\n\t" +
+                                            "Add    -----  Adds a new book to the list\n\t" +
+                                            "Lend   -----  Lends the given book to the Patron\n\t" +
+                                            "Audit  -----  Audits the books lent to all Patrons\n\t" +
+                                            "Search -----  Searches for books with given name\n");
                                         Console.WriteLine("Help -command for more details");
                                     }
                                 }
                                 else
                                 {
-                                    Console.WriteLine("The commands available for Patron\n\t" +
-                                        "Search [options]   ----- Searches for books with given name\n\t" +
-                                        "Current [options]  ----- Returns the books currently held by the user\n\t" +
-                                        "History [options]  ----- Returns the list of books borrowed by the Patron\n" +
-                                        "The commands available for Admin\n\t" +
-                                        "Add [options]   -----  Adds a new book to the list\n\t" +
-                                        "Lend [options]  -----  Lends the given book to the Patron\n\t" +
-                                        "Audit [options] -----  Audits the books lent to all Patrons\n\t" +
-                                        "Search [options]   ----- Searches for books with given name");
-                                    Console.WriteLine("Help -command for more details");
+                                    Console.WriteLine("\nThe commands available for Patron's are:\n\t" +
+                                        "Command Definitions:\n\t" +
+                                        "Search   ----- Searches for books with given name\n\t" +
+                                        "Current  ----- Returns the books currently held by the user\n\t" +
+                                        "History  ----- Returns the list of books borrowed by the Patron\n" +
+                                        "\nThe commands available for Admin's are:\n\t" +
+                                        "Add    -----  Adds a new book to the list\n\t" +
+                                        "Lend   -----  Lends the given book to the Patron\n\t" +
+                                        "Audit  -----  Audits the books lent to all Patrons\n\t" +
+                                        "Search ----- Searches for books with given name\n");
+                                    Console.WriteLine("Type the word Help -command (ex: Help -Search) for more details");
                                 }
                             }
                             else if (userInput.Contains("Search"))
                             {
-                                if (usernameInput.Split('-').Length == 2)
+                                if (userInput.Split('-').Length == 2)
                                 {
                                     int sepCount = 2;
                                     string option = userInput.Split('-')[1];
@@ -242,7 +246,7 @@ namespace Library
                             else
                             {
                                 Console.WriteLine("Couldn't find the command '{0}'.", userInput);
-                                Console.WriteLine("The commands available for Patron\n\t" +
+                                Console.WriteLine("The commands available for Patron's are:\n\t" +
                                      "Search [options]   ----- Searches for books with given name\n\t" +
                                      "Current [options]  ----- Returns the books currently held by the user\n\t" +
                                      "History [options]  ----- Returns the list of books lent by the Patron\n" +
