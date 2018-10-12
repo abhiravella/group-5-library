@@ -6,7 +6,7 @@ namespace Library
     class Books
     {
         #region variable declaration
-        private static int bookCount = 0;
+        public int bookCount;
         private List<String> name = new List<String>();
         private List<String> author = new List<String>();
         private List<String> genere = new List<String>();
@@ -18,30 +18,52 @@ namespace Library
         /*
          *  Returns number of Books in the Library
          */
-        public static int getCount()
+        public int GetCount()
         {
             return bookCount;
         }
         /*
          *  Updates number of books when adding a new book
          */
-        private static void updateCount()
+        private void UpdateCount()
         {
             bookCount++;
         }
         /*
          *  Adds a new book to the library. If one of the field is null pass it as empty string or null
          */
+         public Boolean CheckBookAvailability(int bookId)
+        {
+            if (available[id.IndexOf(bookId)] > 0)
+                return true;
+            else
+                return false;
+        }
+        public void UpdateAvailability(int bookId)
+        {
+            available[id.IndexOf(bookId)] -= 1;
+            return;
+        }
+        public void PrepareBooks(int bookId,string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
+        {
+            id.Add(bookId);
+            name.Add(bookName.ToUpper());
+            author.Add(bookAuthor.ToUpper());
+            genere.Add(bookGenere.ToUpper());
+            year.Add(bookYear);
+            available.Add(bookavailable);
+            return;
+        }
         public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear,int bookavailable)
         {
             name.Add(bookName.ToUpper());
             author.Add(bookAuthor.ToUpper());
             genere.Add(bookGenere.ToUpper());
             year.Add(bookYear);
-            Books.updateCount();
-            id.Add(Books.bookCount);
+            UpdateCount();
+            id.Add(bookCount);
             available.Add(bookavailable);
-
+            BookReader.Add(bookCount,bookName,bookAuthor,bookGenere,bookYear,bookavailable);
             return;
         }
         /*
@@ -75,6 +97,9 @@ namespace Library
             }
             return;
         }
+        /*
+         *  Search method for bookYear, bookId, 
+         */ 
         public void SearchBooks(int searchValue, int field)
         {
             List<int> indexes = new List<int>();
@@ -85,7 +110,7 @@ namespace Library
                     Display(indexes);
                     break;
                 case 5:
-                    indexes = SearchResult(searchValue, year);
+                    indexes = SearchResult(searchValue, id);
                     Display(indexes);
                     break;
                 default:
@@ -140,6 +165,22 @@ namespace Library
                 }
             }
             return;
+        }
+        /*
+         *  Get details of a book based on ID
+         */  
+         public string GetDetails(int bookId)
+        {
+            var index = id.IndexOf(bookId);
+            if (index == -1)
+            {
+                Console.WriteLine("Did not find any book with ID {0}.",bookId);
+                return "";
+            }
+            else
+            {
+              return  ""+ id[index]+"|" + name[index] + "|"+genere[index]+"|"+author[index] + "|"+ year[index]+ ""+available[index];
+            }
         }
         #endregion
     }
