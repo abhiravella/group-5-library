@@ -13,36 +13,38 @@ namespace Library
         private int contactnumber;
         private string designation;
 
-        public Person(string value)
+        public Person(string value, string name, int id)
         {
-            this.designation=value;
+            this.designation = value;
+            this.name = name;
+            this.id = id;
         }
         public string GetDesignation()
-        {          
-            Console.WriteLine("Current User is: {0}",designation);
+        {
+            Console.WriteLine("Current User is: {0}", designation);
             return designation;
         }
 
-        public void SetName( string Name)
+        public void SetName(string Name)
         {
-            if(string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 throw new Exception("Entered Invalid Name");
             }
-                this.name=Name;
+            this.name = Name;
         }
         public string GetName()
         {
-            if(string.IsNullOrEmpty(this.name))
+            if (string.IsNullOrEmpty(this.name))
             {
-                  return "No Name";
+                return "No Name";
             }
             return this.name;
         }
 
         public void SetId(int Id)
         {
-            this.id=Id;
+            this.id = Id;
         }
         public int GetId()
         {
@@ -54,14 +56,10 @@ namespace Library
         }
         public int GetContactNumber()
         {
-            return this.contactnumber ;
+            return this.contactnumber;
         }
 
 
     }
 
 }
-
-
-   
-
