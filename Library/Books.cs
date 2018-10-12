@@ -44,6 +44,11 @@ namespace Library
             available[id.IndexOf(bookId)] -= 1;
             return;
         }
+        public void ReturnBook(int bookId)
+        {
+            available[id.IndexOf(bookId)] += 1;
+            return;
+        }
         public void PrepareBooks(int bookId,string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
         {
             id.Add(bookId);
