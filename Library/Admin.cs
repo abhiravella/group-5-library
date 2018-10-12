@@ -16,30 +16,20 @@ namespace Library
         {
 
         }
-
         /*    Updates count of books after lending books to patron    */
         public string LendBooks(int bookId, ref Patron patronObject,ref Books book)
         {
-
             if (patronObject.CheckDueDate() == true)
             {
-                // calling check method in patron class
-                // calling checkBookAvailability in Books class
-                //if(CheckBookAvailability(bookId))
-                bool checkBook = true;
-                if (checkBook)
+                if(book.CheckBookAvailability(bookId))              
                 {
                     string currentRecord = "";
                     currentRecord += "" + bookId;
                     currentRecord += "" + patronObject.GetId();                    
                     currentRecord += "" + DateTime.Today.ToString("D");
-
                     patronObject.AddBooks(bookId, DateTime.Today);
-                    // Calling method in books to update the count
-                  //  book.UpdateAvailability(bookId);
-                    Console.WriteLine("Calling update method in books");
+                    book.UpdateAvailability(bookId);
                     return currentRecord;
-
                 }
                 else
                 {
@@ -49,7 +39,7 @@ namespace Library
             }
             else
             {
-                Console.WriteLine("There is Due.");
+                Console.WriteLine("There books that are Due.");
                 return " ";
             }
             
