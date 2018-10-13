@@ -33,14 +33,14 @@ namespace Library
             foreach (var line in lines) 
             {
                 //Create an Array to read the string in the line of the file
-                string[] _b = new string[5];
+                string[] _b = new string[6];
                 //Split to give text on each side of comma
                 _b = line.Split(',');
                 //Parsing bookyear and bookavailabe into intergers
-                int bookyear = int.Parse(_b[3]);
-                int bookavailable = int.Parse(_b[4]);
+                int bookyear = int.Parse(_b[4]);
+                int bookavailable = int.Parse(_b[5]);
                 //Adding the book information to book Object
-                books.AddBook(_b[0], _b[1], _b[2], bookyear, bookavailable);
+                books.AddBook(_b[1], _b[2], _b[3], bookyear, bookavailable);
             }
             //Returns all the lines in file in correct format
             return books;
