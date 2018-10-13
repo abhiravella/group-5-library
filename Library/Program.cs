@@ -7,22 +7,34 @@ namespace Library
     {
         static void Main(string[] args)
         {
-
-            //Read Books and save to variable books
-            Books books = BookReader.Read("Books.txt");
-
-            List<String> username = new List<String> { "abhiravilla", "kim", "Robert", "smith", "swapna" };
-            List<String> password = new List<String> { "AZaz09$$", "AZaz09$$", "AZaz09$$", "AZaz09$$", "AZaz09$$" };
-            List<String> designation = new List<String> { "Admin", "Patron", "Patron", "Admin", "Patron" };
-            Books bk = new Books();
-            Console.WriteLine("Welome to Group 5's Library! \n\nEnter your username and password");
-            //Entering the program to input username and password-3 tries
+            Books books = BookReader.BooksRead(@"Resources/Books.txt");
+            // Reads the userIds, passwords and details of every user
+            PersonsRead pread = BookReader.PersonsRead(@"Resources/Creds.txt");
+            List<String> username = pread.userId;
+            List<String> password = pread.password;
+            List<String> designation = pread.designation;
+            List<Patron> Patrons = pread.patronList;
+            List<Admin> Admins = pread.adminList;
+            List<String> patronData = BookReader.PatronData(@"Resources/patronsLend.txt");
+            // Prepares the data for patrons to reflect previous application state
+            foreach(var item in patronData)
+            {
+                var details = item.Split(new char[] { '|' }, 2);
+                foreach(var patron in Patrons)
+                {
+                    if (patron.GetId() == int.Parse(details[0])){
+                        patron.AddBooks(details[1]);
+                    }
+                }
+            }
+            // Current Patron or Admins position on object Lists
+            var currentPatron = 0;
+            var currentAdmin = 0;            
+            var usernameInput = "";
+            var passwordInput = "";
             var loginsuccessful = false;
             var tries = 0;
-            //Declared string as empty upon start up
-            string usernameInput = "";
-            string passwordInput = "";
-            //If username & password are not correct, 3 tries 
+
             while (loginsuccessful == false && tries < 3)
             {
                 Console.WriteLine("Username:");
@@ -51,19 +63,61 @@ namespace Library
                 //Incrementing tries
                 tries++;
             }
-            //Outside of while statment, no more tries
-            if (loginsuccessful ==false)
+            if (loginsuccessful == false)
             {
                 Console.WriteLine("\nLogin Unsuccessful, Close Program and Retry!");
                 Console.ReadLine();
             }
-            #region userInterface
+
+            // Checks if userId's and password match
             while (loginsuccessful)
             {
+                // Finding the position of Patron or Admin
+                if (designation[username.IndexOf(usernameInput)] == "Patron")
+                    {
+                        for(int i = 0; i < Patrons.Count; i++)
+                        {
+                            if (Patrons[i].GetId() == int.Parse(usernameInput))
+                                currentPatron = i;
+                        }
+                    }else if (designation[username.IndexOf(usernameInput)] == "Admin")
+                    {
+
+                        for (int i = 0; i < Admins.Count; i++)
+                        {
+                            if (Admins[i].GetId() == int.Parse(usernameInput))
+                                currentPatron = i;
+                        }
+                    }
+                #region userInterface
                 Console.WriteLine("\nType the word Help for available commands or Exit to leave the library");
                 var userInput = Console.ReadLine();
                 if (userInput.Equals("Exit"))
                 {
+                    // If Exiting Application saves the current state of all objects
+                    BookReader.Add(books, @"Resources/Books.txt");
+                    var patronLend = "";
+                    for (int i = 0; i < Patrons.Count; i++)
+                    {
+                        if (i == Patrons.Count)
+                        {
+                            List<String> patronCurrent = Patrons[i].Current();
+                            foreach (var item in patronCurrent)
+                            {
+                                patronLend += "" + Patrons[i].GetId() + "|" + item.Replace(',', '|');
+                            }
+                        }
+                        else
+                        {
+                            List<String> patronCurrent = Patrons[i].Current();
+                            foreach (var item in patronCurrent)
+                            {
+                                patronLend += "" + Patrons[i].GetId() + "|" + item.Replace(',', '|') + System.Environment.NewLine;
+                            }
+                        }
+                        BookReader.Add(patronLend, @"Resources/patronsLend.txt");
+
+                    }
                     break;
                 }
                 else
@@ -111,7 +165,16 @@ namespace Library
                                     "The following are the required paramters for this command\n\t" +
                                     "-bi ID of the book being lent\n\t" +
                                     "-pi ID of the patron to whom book is being lent\n\t" +
-                                    "Enter the commmand as (ex: Lend -bi 5).\n");
+                                    "Enter the commmand as (ex: Lend -pi 1 -bi 5).\n");
+                            }
+                            else if (userCommand.Equals("Return"))
+                            {
+                                Console.WriteLine("Command : Return");
+                                Console.WriteLine("Admin enters book ID and Patron ID when Patron is retuning a book.\n\t" +
+                                    "The following are the required paramters for this command\n\t" +
+                                    "-bi ID of the book being returned\n\t" +
+                                    "-pi ID of the patron to who is returning a book\n\t" +
+                                    "Enter the commmand as (ex: Return -pi 2 -bi 5).\n");
                             }
                             else if (userCommand.Equals("Audit"))
                             {
@@ -129,6 +192,7 @@ namespace Library
                                     "\nThe commands available for Admin\n\t" +
                                     "Add    -----  Adds a new book to the list\n\t" +
                                     "Lend   -----  Lends the given book to the Patron\n\t" +
+                                    "Return -----  Return the given book to the Library\n\t" +
                                     "Audit  -----  Audits the books lent to all Patrons\n\t" +
                                     "Search -----  Searches for books using given criteria\n");
                                 Console.WriteLine("Help -command for more details");
@@ -191,15 +255,28 @@ namespace Library
                     }
                     else if (userInput.Contains("Current"))
                     {
-                        if (designation[username.IndexOf(usernameInput)] == "Patron")
-                        {
-                            Console.WriteLine("Calls the List of patron class and prints info of the books held by Patron");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Your account doesn't support this command");
-                        }
-                    }
+                            // Checks if current user can execute the command
+                            if (designation[username.IndexOf(usernameInput)] == "Patron")
+                            {
+                                Console.WriteLine("Id: {0}\nName: {1}\n", Patrons[currentPatron].GetId(), Patrons[currentPatron].GetName());
+                                if (Patrons[currentPatron].CurrentCount() == 0)
+                                    Console.WriteLine("Currently you do not hold any of the books");
+                                else
+                                {
+                                    List<String> currentBooks = Patrons[currentPatron].Current();
+                                    foreach (var item in currentBooks)
+                                    {
+                                        var bookdetails = books.GetDetails(int.Parse(item.Split(',')[0])).Split('|');
+                                        Console.WriteLine("Book ID: {5}\nBook Name : {0}\nBook Author: {1}\nBook Genere: {2}\nBook Published Year: {3}\nIssued Date: {4}",
+                                            bookdetails[1], bookdetails[3], bookdetails[2], bookdetails[3], DateTime.Parse(item.Split(',')[1]).Date.ToString(), int.Parse(item.Split(',')[0]));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Your account doesn't support this command");
+                            }
+                    }                    
                     else if (userInput.Contains("History"))
                     {
                         if (designation[username.IndexOf(usernameInput)] == "Patron")
@@ -215,6 +292,7 @@ namespace Library
                     {
                         if (designation[username.IndexOf(usernameInput)] == "Admin")
                         {
+                            // Checks if command Add is valid or not
                             if (userInput.Split('-').Length == 6)
                             {
                                 var bookName = "";
@@ -256,7 +334,7 @@ namespace Library
                                 }
                                 if (String.IsNullOrEmpty(bookName) || String.IsNullOrEmpty(bookGenere) || String.IsNullOrEmpty(bookAuthor) || bookYear == 0 || bookAvailable == 0)
                                 {
-                                    Console.WriteLine("Invalid options or command. Try typing Help -Add for more information.");
+                                    Console.WriteLine("Invalid options or command. Try Help -Add for more information");
                                 }
                                 else
                                 {
@@ -266,7 +344,7 @@ namespace Library
                             }
                             else
                             {
-                                Console.WriteLine("Invalid options or command. Try typing Help -Add for more information");
+                                Console.WriteLine("Invalid options or command. Try Help -Add for more information");
                             }
                         }
                         else
@@ -307,22 +385,85 @@ namespace Library
                                 }
                                 if (bookId == 0 || PatronId == 0)
                                 {
-                                    Console.WriteLine("Invalid options or command. Try typing Help -Lend for more information");
+                                    Console.WriteLine("Invalid options or command. Try Help -Lend for more information");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("calling lend function with values {0},{1}", bookId, PatronId);
+                                    for (int i = 0; i < Patrons.Count; i++)
+                                    {
+                                        if (Patrons[i].GetId() == PatronId)
+                                            currentPatron = i;
+                                    }
+                                    Patron tempPatron = Patrons[currentPatron];
+                                    Admins[currentAdmin].LendBooks(bookId, ref tempPatron, ref books);
                                 }
                             }
 
                             else
                             {
-                                Console.WriteLine("Invalid number for command Lend. Try typing Help -Lend for more information.");
+                                Console.WriteLine("Invalid number of options for command Lend. Try Help -Lend for more information");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Your account does not have the privileges required to execute this command.");
+                            Console.WriteLine("Your account doesn't have privilages to execute this command");
+                        }
+                    }
+                    else if (userInput.Contains("Return"))
+                    {
+                        if (designation[username.IndexOf(usernameInput)] == "Admin")
+                        {
+                            if (userInput.Split('-').Length == 3)
+                            {
+                                var bookId = 0;
+                                var PatronId = 0;
+                                var tempVar = 0;
+                                var userInputOptions = userInput.Split('-');
+                                for (int i = 1; i < 3; i++)
+                                {
+                                    switch (userInputOptions[i].Split(new char[] { ' ' }, 2)[0])
+                                    {
+                                        case "bi":
+                                            if (int.TryParse(userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim(), out tempVar))
+                                            {
+                                                bookId = tempVar;
+                                            }
+                                            break;
+                                        case "pi":
+                                            if (int.TryParse(userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim(), out tempVar))
+                                            {
+                                                PatronId = tempVar;
+                                            }
+
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                if (bookId == 0 || PatronId == 0)
+                                {
+                                    Console.WriteLine("Invalid options or command. Try Help -Return  for more information");
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < Patrons.Count; i++)
+                                    {
+                                        if (Patrons[i].GetId() == PatronId)
+                                            currentPatron = i;
+                                    }
+                                    Patron tempPatron = Patrons[currentPatron];
+                                    Admins[currentAdmin].Return(bookId, ref tempPatron, ref books);
+                                }
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("Invalid number of options for command Lend. Try Help -Lend for more information");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Your account doesn't have privilages to execute this command");
                         }
                     }
                     else if (userInput.Contains("Audit"))
@@ -341,7 +482,6 @@ namespace Library
                              "Lend  -----  Lends the given book to the Patron\n\t" +
                              "Audit -----  Audits the books lent to all Patrons");
                     }
-                    userInput = Console.ReadLine();
                 }
             }
             #endregion
@@ -350,4 +490,4 @@ namespace Library
         }
 
     }
-}
+}                         
