@@ -13,7 +13,7 @@ namespace Library
         public const int timePeriod = 15;
         public DateTime currentDate=DateTime.Now;
 
-        public Patron(string value):base(value)
+        public Patron(string value,String name,int id):base(value,name,id)
         {
             
         }
@@ -33,24 +33,16 @@ namespace Library
         }
 
          // Adding books to currentbooks bookId,Issuedate
-        public void AddBooks(int BookId, DateTime IssueDate)
+        public void AddBook(int BookId, DateTime IssueDate)
         {
              currentbooks.Add(new currentBookDetails { bookId = BookId, issuedDay = IssueDate });
         }
 
-        /*
-        *  Check return true or false
-        *  current date should be less than IssueDate+15
-        *  Add function in Datetime
-        */
-
-       
+          
         public bool CheckDueDate()
         {
 
-            bool flag =true;
-           
-
+            bool flag =true;           
             foreach (var item in currentbooks)
             {
                 if (currentDate <item.issuedDay.AddDays(timePeriod))
@@ -64,18 +56,40 @@ namespace Library
                 }
             }
                          
-            return ( flag && (CurrentCount() < maxbooklimit));
+            return flag&&(CurrentCount()<maxbooklimit);
         }
-
-        public List<string> Count(int BoodId,DateTime IssueDate)
+        public List<string> Current()
         {
             List<string> temp = new List<string>() ;
             foreach(var i in currentbooks)
             {
                 temp.Add("" + i.bookId + "," + i.issuedDay);
-
             }
             return temp;
+        }
+        public bool ReturnBook(int bookId)
+        {
+            var index = -1;
+           for(int i =0; i<currentbooks.Count;i++ )
+           {
+                if (currentbooks[i].bookId == bookId)
+                    index = i;
+           }
+           if(index != -1)
+            {
+                currentbooks.RemoveAt(index);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        public void AddBooks(string bookDetails)
+        {
+            var tempVar = bookDetails.Split('|');
+            AddBook(int.Parse(tempVar[0].Trim()), DateTime.Parse(tempVar[1]));            
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Library
         private List<int> patrontid = new List<int>();
         private List<DateTime> datetime = new List<DateTime>();
 
-        public Admin(string value) : base(value)
+        public Admin(string value,string name, int id) : base(value,name,id)
         {
 
         }
@@ -27,7 +27,7 @@ namespace Library
                     currentRecord += "" + bookId;
                     currentRecord += "" + patronObject.GetId();                    
                     currentRecord += "" + DateTime.Today.ToString("D");
-                    patronObject.AddBooks(bookId, DateTime.Today);
+                    patronObject.AddBook(bookId, DateTime.Today);
                     book.UpdateAvailability(bookId);
                     return currentRecord;
                 }
@@ -39,11 +39,30 @@ namespace Library
             }
             else
             {
-                Console.WriteLine("There books that are Due.");
-                return " ";
-            }
-            
+                if(patronObject.CurrentCount()< 6) { 
+                    Console.WriteLine("There books that are Due.");
+                    return " ";
+                }
+                else
+                { 
+                    Console.WriteLine("Books Limit Reached");
+                    return " ";
+                }
+            }            
         }
-
+        public bool Return(int bookId, ref Patron patronObj, ref Books book)
+        {
+            if (book.ReturnBook(bookId))
+            {
+                if (patronObj.ReturnBook(bookId))
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

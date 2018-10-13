@@ -13,9 +13,11 @@ namespace Library
         private int contactnumber;
         private string designation;
 
-        public Person(string value)
+        public Person(string value, string name, int id)
         {
             this.designation=value;
+            this.name = name;
+            this.id = id;
         }
         public string GetDesignation()
         {          

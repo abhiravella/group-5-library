@@ -44,10 +44,10 @@ namespace Library
             available[id.IndexOf(bookId)] -= 1;
             return;
         }
-        public void ReturnBook(int bookId)
+        public bool ReturnBook(int bookId)
         {
             available[id.IndexOf(bookId)] += 1;
-            return;
+            return true;
         }
         public void PrepareBooks(int bookId,string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
         {
@@ -68,7 +68,7 @@ namespace Library
             UpdateCount();
             id.Add(bookCount);
             available.Add(bookavailable);
-            BookReader.Add(bookCount,bookName,bookAuthor,bookGenere,bookYear,bookavailable);
+        //    BookReader.Add(bookCount,bookName,bookAuthor,bookGenere,bookYear,bookavailable);
             return;
         }
         /*
@@ -184,8 +184,24 @@ namespace Library
             }
             else
             {
-              return  ""+ id[index]+"|" + name[index] + "|"+genere[index]+"|"+author[index] + "|"+ year[index]+ ""+available[index];
+              return  ""+ id[index]+"|" + name[index] + "|"+genere[index]+"|"+author[index] + "|"+ year[index]+"|"+available[index];
             }
+        }
+        public String GetAll()
+        {
+            var temp = "";
+            for (int i = 0; i < name.Count; i++)
+            {
+                if (i == name.Count)
+                {
+                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + genere[i] + "|" + year[i] + "|" + available[i];
+                }
+                else
+                {
+                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + genere[i] + "|" + year[i] + "|" + available[i] + System.Environment.NewLine;
+                }                
+            }
+            return temp;
         }
         #endregion
     }
