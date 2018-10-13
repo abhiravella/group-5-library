@@ -6,7 +6,7 @@ namespace Library
     class Books
     {
         #region variable declaration
-        private static int bookCount;
+        private static int bookCount = 0;
         private List<String> name = new List<String>();
         private List<String> author = new List<String>();
         private List<String> genere = new List<String>();
@@ -41,6 +41,7 @@ namespace Library
             Books.updateCount();
             id.Add(Books.bookCount);
             available.Add(bookavailable);
+
             return;
         }
         /*
@@ -68,17 +69,23 @@ namespace Library
                 case 3:
                     indexes = SearchResult(searchValue.ToUpper(), genere);
                     Display(indexes);
-                    break;
-                case 4:
-                    if (String.IsNullOrEmpty(searchValue) || String.IsNullOrWhiteSpace(searchValue))
-                        return;
-                    indexes = SearchResult(Convert.ToInt32(searchValue), year);
+                    break;             
+                default:
+                    return;
+            }
+            return;
+        }
+        public void SearchBooks(int searchValue, int field)
+        {
+            List<int> indexes = new List<int>();
+            switch (field)
+            {               
+                case 4:                    
+                    indexes = SearchResult(searchValue, year);
                     Display(indexes);
                     break;
                 case 5:
-                    if (String.IsNullOrEmpty(searchValue) || String.IsNullOrWhiteSpace(searchValue))
-                        return;
-                    indexes = SearchResult(Convert.ToInt32(searchValue), year);
+                    indexes = SearchResult(searchValue, year);
                     Display(indexes);
                     break;
                 default:
@@ -120,7 +127,7 @@ namespace Library
         {
             if(indexes.Count == 0)
             {
-                Console.WriteLine("Search didn't return anything");
+                Console.WriteLine("Book not found");
             }
             else
             {
