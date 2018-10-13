@@ -237,11 +237,19 @@ namespace Library
                                     {
                                         books.SearchBooks(tempVar, 4);
                                     }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid value for the option. The value should be integer");
+                                    }
                                     break;
                                 case "i":
                                     if (int.TryParse(optionValue[1].Trim(), out tempVar))
                                     {
                                         books.SearchBooks(tempVar, 5);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid value for the option. The value should be integer");
                                     }
                                     break;
                                 default:
