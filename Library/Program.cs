@@ -7,15 +7,15 @@ namespace Library
     {
         static void Main(string[] args)
         {
-            Books books = BookReader.BooksRead(@"Resources/Books.txt");
+            Books books = BookReader.BooksRead("Books.txt");
             // Reads the userIds, passwords and details of every user
-            PersonsRead pread = BookReader.PersonsRead(@"Resources/Creds.txt");
+            PersonsRead pread = BookReader.PersonsRead("Creds.txt");
             List<String> username = pread.userId;
             List<String> password = pread.password;
             List<String> designation = pread.designation;
             List<Patron> Patrons = pread.patronList;
             List<Admin> Admins = pread.adminList;
-            List<String> patronData = BookReader.PatronData(@"Resources/patronsLend.txt");
+            List<String> patronData = BookReader.PatronData("PatronsLend.txt");
             // Prepares the data for patrons to reflect previous application state
             foreach(var item in patronData)
             {
@@ -95,7 +95,7 @@ namespace Library
                 if (userInput.Equals("Exit"))
                 {
                     // If Exiting Application saves the current state of all objects
-                    BookReader.Add(books, @"Resources/Books.txt");
+                    BookReader.Add(books, "Books.txt");
                     var patronLend = "";
                     for (int i = 0; i < Patrons.Count; i++)
                     {
@@ -115,7 +115,7 @@ namespace Library
                                 patronLend += "" + Patrons[i].GetId() + "|" + item.Replace(',', '|') + System.Environment.NewLine;
                             }
                         }
-                        BookReader.Add(patronLend, @"Resources/patronsLend.txt");
+                        BookReader.Add(patronLend, "patronsLend.txt");
 
                     }
                     break;
