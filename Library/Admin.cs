@@ -27,7 +27,7 @@ namespace Library
                     currentRecord += "" + bookId;
                     currentRecord += "" + patronObject.GetId();
                     currentRecord += "" + DateTime.Today.ToString("D");
-                    patronObject.AddBooks(bookId, DateTime.Today);
+                    patronObject.AddBook(bookId, DateTime.Today);
                     book.UpdateAvailability(bookId);
                     return currentRecord;
                 }
@@ -67,3 +67,4 @@ namespace Library
         }
     }
 }
+

@@ -30,19 +30,16 @@ namespace Library
         public int CurrentCount()
         {
             return currentbooks.Count;
+
         }
 
         // Adding books to currentbooks bookId,Issuedate
-        public void AddBooks(int BookId, DateTime IssueDate)
+        public void AddBook(int BookId, DateTime IssueDate)
         {
             currentbooks.Add(new currentBookDetails { bookId = BookId, issuedDay = IssueDate });
         }
-
-        /*
-        *  Check return true or false
-        *  current date should be less than IssueDate+15
-        *  Add function in Datetime
-        */
+        
+        // Verify Patron Check deatils.(Due date to return books and Maximum book limit)
         public bool CheckDueDate()
         {
 
@@ -89,5 +86,14 @@ namespace Library
                 return false;
             }
         }
+
+        public void AddBooks(string bookDetails)
+        {
+            var tempVar = bookDetails.Split('|');
+            AddBook(int.Parse(tempVar[0].Trim()), DateTime.Parse(tempVar[1]));
+        }
     }
 }
+
+
+
