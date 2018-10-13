@@ -6,7 +6,7 @@ namespace Library
     class Books
     {
         #region variable declaration
-        private static int bookCount = 0;
+        public int bookCount;
         private List<String> name = new List<String>();
         private List<String> author = new List<String>();
         private List<String> genere = new List<String>();
@@ -18,30 +18,57 @@ namespace Library
         /*
          *  Returns number of Books in the Library
          */
-        public static int getCount()
+        public int GetCount()
         {
             return bookCount;
         }
         /*
          *  Updates number of books when adding a new book
          */
-        private static void updateCount()
+        private void UpdateCount()
         {
             bookCount++;
         }
         /*
          *  Adds a new book to the library. If one of the field is null pass it as empty string or null
          */
-        public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear,int bookavailable)
+        public Boolean CheckBookAvailability(int bookId)
+        {
+            if (available[id.IndexOf(bookId)] > 0)
+                return true;
+            else
+                return false;
+        }
+        public void UpdateAvailability(int bookId)
+        {
+            available[id.IndexOf(bookId)] -= 1;
+            return;
+        }
+        public bool ReturnBook(int bookId)
+        {
+            available[id.IndexOf(bookId)] += 1;
+            return true;
+        }
+        public void PrepareBooks(int bookId, string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
+        {
+            id.Add(bookId);
+            name.Add(bookName.ToUpper());
+            author.Add(bookAuthor.ToUpper());
+            genere.Add(bookGenere.ToUpper());
+            year.Add(bookYear);
+            available.Add(bookavailable);
+            return;
+        }
+        public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
         {
             name.Add(bookName.ToUpper());
             author.Add(bookAuthor.ToUpper());
             genere.Add(bookGenere.ToUpper());
             year.Add(bookYear);
-            Books.updateCount();
-            id.Add(Books.bookCount);
+            UpdateCount();
+            id.Add(bookCount);
             available.Add(bookavailable);
-
+            //    BookReader.Add(bookCount,bookName,bookAuthor,bookGenere,bookYear,bookavailable);
             return;
         }
         /*
@@ -53,7 +80,7 @@ namespace Library
          *  4 = year
          *  5 = id   
          */
-        public void SearchBooks(string searchValue , int field)
+        public void SearchBooks(string searchValue, int field)
         {
             List<int> indexes = new List<int>();
             switch (field)
@@ -69,23 +96,26 @@ namespace Library
                 case 3:
                     indexes = SearchResult(searchValue.ToUpper(), genere);
                     Display(indexes);
-                    break;             
+                    break;
                 default:
                     return;
             }
             return;
         }
+        /*
+         *  Search method for bookYear, bookId, 
+         */
         public void SearchBooks(int searchValue, int field)
         {
             List<int> indexes = new List<int>();
             switch (field)
-            {               
-                case 4:                    
+            {
+                case 4:
                     indexes = SearchResult(searchValue, year);
                     Display(indexes);
                     break;
                 case 5:
-                    indexes = SearchResult(searchValue, year);
+                    indexes = SearchResult(searchValue, id);
                     Display(indexes);
                     break;
                 default:
@@ -99,7 +129,7 @@ namespace Library
         private List<int> SearchResult(string value, List<String> searchList)
         {
             List<int> resultIndex = new List<int>();
-            for (int i = 0;i < searchList.Count; i++)           
+            for (int i = 0; i < searchList.Count; i++)
             {
                 if (searchList[i].Contains(value))
                 {
@@ -109,11 +139,11 @@ namespace Library
             return resultIndex;
         }
         private List<int> SearchResult(int value, List<int> searchList)
-        {        
+        {
             List<int> resultIndex = new List<int>();
             for (int i = 0; i < searchList.Count; i++)
             {
-                if (searchList[i]==value)
+                if (searchList[i] == value)
                 {
                     resultIndex.Add(i);
                 }
@@ -125,7 +155,7 @@ namespace Library
          */
         private void Display(List<int> indexes)
         {
-            if(indexes.Count == 0)
+            if (indexes.Count == 0)
             {
                 Console.WriteLine("Book not found");
             }
@@ -134,12 +164,44 @@ namespace Library
                 var iterator = 1;
                 foreach (var item in indexes)
                 {
-                    Console.WriteLine("Book {0}",iterator);
-                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenere: {2}\nYear: {3}\nAvailable Copies:{5}",name[item],genere[item],author[item],year[item],id[item],available[item]);
+                    Console.WriteLine("Book {0}", iterator);
+                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenere: {2}\nYear: {3}\nAvailable Copies:{5}", name[item], genere[item], author[item], year[item], id[item], available[item]);
                     iterator++;
                 }
             }
             return;
+        }
+        /*
+         *  Get details of a book based on ID
+         */
+        public string GetDetails(int bookId)
+        {
+            var index = id.IndexOf(bookId);
+            if (index == -1)
+            {
+                Console.WriteLine("Did not find any book with ID {0}.", bookId);
+                return "";
+            }
+            else
+            {
+                return "" + id[index] + "|" + name[index] + "|" + genere[index] + "|" + author[index] + "|" + year[index] + "|" + available[index];
+            }
+        }
+        public String GetAll()
+        {
+            var temp = "";
+            for (int i = 0; i < name.Count; i++)
+            {
+                if (i == name.Count)
+                {
+                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + genere[i] + "|" + year[i] + "|" + available[i];
+                }
+                else
+                {
+                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + genere[i] + "|" + year[i] + "|" + available[i] + System.Environment.NewLine;
+                }
+            }
+            return temp;
         }
         #endregion
     }
