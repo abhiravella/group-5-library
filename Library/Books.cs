@@ -6,7 +6,7 @@ namespace Library
     class Books
     {
         #region variable declaration
-        private static int bookCount;
+        private static int bookCount = 0;
         private List<String> name = new List<String>();
         private List<String> author = new List<String>();
         private List<String> genere = new List<String>();
@@ -32,7 +32,7 @@ namespace Library
         /*
          *  Adds a new book to the library. If one of the field is null pass it as empty string or null
          */
-        public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
+        public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear,int bookavailable)
         {
             name.Add(bookName.ToUpper());
             author.Add(bookAuthor.ToUpper());
@@ -41,6 +41,7 @@ namespace Library
             Books.updateCount();
             id.Add(Books.bookCount);
             available.Add(bookavailable);
+
             return;
         }
         /*
@@ -52,7 +53,7 @@ namespace Library
          *  4 = year
          *  5 = id   
          */
-        public void SearchBooks(string searchValue, int field)
+        public void SearchBooks(string searchValue , int field)
         {
             List<int> indexes = new List<int>();
             switch (field)
@@ -68,17 +69,23 @@ namespace Library
                 case 3:
                     indexes = SearchResult(searchValue.ToUpper(), genere);
                     Display(indexes);
-                    break;
-                case 4:
-                    if (String.IsNullOrEmpty(searchValue) || String.IsNullOrWhiteSpace(searchValue))
-                        return;
-                    indexes = SearchResult(Convert.ToInt32(searchValue), year);
+                    break;             
+                default:
+                    return;
+            }
+            return;
+        }
+        public void SearchBooks(int searchValue, int field)
+        {
+            List<int> indexes = new List<int>();
+            switch (field)
+            {               
+                case 4:                    
+                    indexes = SearchResult(searchValue, year);
                     Display(indexes);
                     break;
                 case 5:
-                    if (String.IsNullOrEmpty(searchValue) || String.IsNullOrWhiteSpace(searchValue))
-                        return;
-                    indexes = SearchResult(Convert.ToInt32(searchValue), year);
+                    indexes = SearchResult(searchValue, year);
                     Display(indexes);
                     break;
                 default:
@@ -92,7 +99,7 @@ namespace Library
         private List<int> SearchResult(string value, List<String> searchList)
         {
             List<int> resultIndex = new List<int>();
-            for (int i = 0; i < searchList.Count; i++)
+            for (int i = 0;i < searchList.Count; i++)           
             {
                 if (searchList[i].Contains(value))
                 {
@@ -102,11 +109,11 @@ namespace Library
             return resultIndex;
         }
         private List<int> SearchResult(int value, List<int> searchList)
-        {
+        {        
             List<int> resultIndex = new List<int>();
             for (int i = 0; i < searchList.Count; i++)
             {
-                if (searchList[i] == value)
+                if (searchList[i]==value)
                 {
                     resultIndex.Add(i);
                 }
@@ -118,17 +125,17 @@ namespace Library
          */
         private void Display(List<int> indexes)
         {
-            if (indexes.Count == 0)
+            if(indexes.Count == 0)
             {
-                Console.WriteLine("Search didn't return anything");
+                Console.WriteLine("Book not found");
             }
             else
             {
                 var iterator = 1;
                 foreach (var item in indexes)
                 {
-                    Console.WriteLine("Book {0}", iterator);
-                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenere: {2}\nYear: {3}\nAvailable Copies:{5}", name[item], genere[item], author[item], year[item], id[item], available[item]);
+                    Console.WriteLine("Book {0}",iterator);
+                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenere: {2}\nYear: {3}\nAvailable Copies:{5}",name[item],genere[item],author[item],year[item],id[item],available[item]);
                     iterator++;
                 }
             }
