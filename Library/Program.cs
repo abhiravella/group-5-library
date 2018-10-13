@@ -135,7 +135,7 @@ namespace Library
                                     "-a author name of the book\n\t" +
                                     "-g genere of the book\n\t" +
                                     "-y published year of the book\n\t" +
-                                    "-v availability of the book\n");
+                                    "-i id of the book\n");
                             }
                             else if (userCommand.Equals("Current"))
                             {
@@ -150,7 +150,7 @@ namespace Library
                             else if (userCommand.Equals("Add"))
                             {
                                 Console.WriteLine("Command :  Add");
-                                Console.WriteLine("Use any of the criteria below to add a new book to the library (ex: Add -a J.K Rowling).\n\t" +
+                                Console.WriteLine("Use any of the criteria below to add a new book to the library (ex: Add -a J.K Rowling).\n\t" +                                                                        
                                     "-n name of the book\n\t" +
                                     "-a author name of the book\n\t" +
                                     "-g genere of the book\n\t" +
@@ -235,16 +235,17 @@ namespace Library
                                 case "y":
                                     if (int.TryParse(optionValue[1].Trim(), out tempVar))
                                     {
-                                        books.SearchBooks(optionValue[1].Trim(), 4);
+                                        books.SearchBooks(tempVar, 4);
                                     }
                                     break;
-                                case "v":
+                                case "i":
                                     if (int.TryParse(optionValue[1].Trim(), out tempVar))
                                     {
-                                        books.SearchBooks(optionValue[1].Trim(), 5);
+                                        books.SearchBooks(tempVar, 5);
                                     }
                                     break;
                                 default:
+                                    Console.WriteLine("Invalid option for the Command. Try Help -Search for more information");
                                     break;
                             }
                         }
