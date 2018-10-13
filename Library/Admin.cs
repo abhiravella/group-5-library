@@ -12,20 +12,20 @@ namespace Library
         private List<int> patrontid = new List<int>();
         private List<DateTime> datetime = new List<DateTime>();
 
-        public Admin(string value,string name, int id) : base(value,name,id)
+        public Admin(string value, string name, int id) : base(value, name, id)
         {
 
         }
         /*    Updates count of books after lending books to patron    */
-        public string LendBooks(int bookId, ref Patron patronObject,ref Books book)
+        public string LendBooks(int bookId, ref Patron patronObject, ref Books book)
         {
             if (patronObject.CheckDueDate() == true)
             {
-                if(book.CheckBookAvailability(bookId))              
+                if (book.CheckBookAvailability(bookId))
                 {
                     string currentRecord = "";
                     currentRecord += "" + bookId;
-                    currentRecord += "" + patronObject.GetId();                    
+                    currentRecord += "" + patronObject.GetId();
                     currentRecord += "" + DateTime.Today.ToString("D");
                     patronObject.AddBook(bookId, DateTime.Today);
                     book.UpdateAvailability(bookId);
@@ -39,16 +39,17 @@ namespace Library
             }
             else
             {
-                if(patronObject.CurrentCount()< 6) { 
+                if (patronObject.CurrentCount() < 6)
+                {
                     Console.WriteLine("There books that are Due.");
                     return " ";
                 }
                 else
-                { 
+                {
                     Console.WriteLine("Books Limit Reached");
                     return " ";
                 }
-            }            
+            }
         }
         public bool Return(int bookId, ref Patron patronObj, ref Books book)
         {
@@ -66,3 +67,4 @@ namespace Library
         }
     }
 }
+
