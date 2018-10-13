@@ -12,10 +12,9 @@ namespace Library
         // Updates the books list to reflect current application state.
         public static void Add(Books book, string filename)
         {        
-            var CurrentBook = book.GetAll();            
+                var CurrentBook = book.GetAll();            
                 //Created a line to capture all book info delimited by commas
                 string line = CurrentBook;
-            Console.WriteLine(line);
                 //Used the StreamWriter to find and write to the file not delete "append "true"
                 using (System.IO.StreamWriter file =
                 new System.IO.StreamWriter(filename, false))
@@ -29,7 +28,6 @@ namespace Library
         {
             //Created a line to capture all book info delimited by commas
             string line = addString;
-            Console.WriteLine(line);
             //Used the StreamWriter to find and write to the file not delete "append "true"
             using (System.IO.StreamWriter file =
             new System.IO.StreamWriter(filename, false))
