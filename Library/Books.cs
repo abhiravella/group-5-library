@@ -9,7 +9,7 @@ namespace Library
         public int bookCount;
         private List<String> name = new List<String>();
         private List<String> author = new List<String>();
-        private List<String> genere = new List<String>();
+        private List<String> Genre = new List<String>();
         private List<int> year = new List<int>();
         private List<int> id = new List<int>();
         private List<int> available = new List<int>();
@@ -49,26 +49,26 @@ namespace Library
             available[id.IndexOf(bookId)] += 1;
             return true;
         }
-        public void PrepareBooks(int bookId, string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
+        public void PrepareBooks(int bookId, string bookName, string bookAuthor, string bookGenre, int bookYear, int bookavailable)
         {
             id.Add(bookId);
             name.Add(bookName.ToUpper());
             author.Add(bookAuthor.ToUpper());
-            genere.Add(bookGenere.ToUpper());
+            Genre.Add(bookGenre.ToUpper());
             year.Add(bookYear);
             available.Add(bookavailable);
             return;
         }
-        public void AddBook(string bookName, string bookAuthor, string bookGenere, int bookYear, int bookavailable)
+        public void AddBook(string bookName, string bookAuthor, string bookGenre, int bookYear, int bookavailable)
         {
             name.Add(bookName.ToUpper());
             author.Add(bookAuthor.ToUpper());
-            genere.Add(bookGenere.ToUpper());
+            Genre.Add(bookGenre.ToUpper());
             year.Add(bookYear);
             UpdateCount();
             id.Add(bookCount);
             available.Add(bookavailable);
-            //    BookReader.Add(bookCount,bookName,bookAuthor,bookGenere,bookYear,bookavailable);
+            //    BookReader.Add(bookCount,bookName,bookAuthor,bookGenre,bookYear,bookavailable);
             return;
         }
         /*
@@ -76,7 +76,7 @@ namespace Library
          *  Field value 
          *  1 = Name
          *  2 = Author
-         *  3 = Genere
+         *  3 = Genre
          *  4 = year
          *  5 = id   
          */
@@ -94,7 +94,7 @@ namespace Library
                     Display(indexes);
                     break;
                 case 3:
-                    indexes = SearchResult(searchValue.ToUpper(), genere);
+                    indexes = SearchResult(searchValue.ToUpper(), Genre);
                     Display(indexes);
                     break;
                 default:
@@ -165,7 +165,7 @@ namespace Library
                 foreach (var item in indexes)
                 {
                     Console.WriteLine("Book {0}", iterator);
-                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenere: {2}\nYear: {3}\nAvailable Copies:{5}", name[item], genere[item], author[item], year[item], id[item], available[item]);
+                    Console.WriteLine("ID:{4}\nName : {0}\nAuthor: {1}\nGenre: {2}\nYear: {3}\nAvailable Copies:{5}", name[item], Genre[item], author[item], year[item], id[item], available[item]);
                     iterator++;
                 }
             }
@@ -184,7 +184,7 @@ namespace Library
             }
             else
             {
-                return "" + id[index] + "|" + name[index] + "|" + genere[index] + "|" + author[index] + "|" + year[index] + "|" + available[index];
+                return "" + id[index] + "|" + name[index] + "|" + Genre[index] + "|" + author[index] + "|" + year[index] + "|" + available[index];
             }
         }
         public String GetAll()
@@ -194,11 +194,11 @@ namespace Library
             {
                 if (i == name.Count)
                 {
-                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + genere[i] + "|" + year[i] + "|" + available[i];
+                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + Genre[i] + "|" + year[i] + "|" + available[i];
                 }
                 else
                 {
-                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + genere[i] + "|" + year[i] + "|" + available[i] + System.Environment.NewLine;
+                    temp += "" + id[i] + "|" + name[i] + "|" + author[i] + "|" + Genre[i] + "|" + year[i] + "|" + available[i] + System.Environment.NewLine;
                 }
             }
             return temp;

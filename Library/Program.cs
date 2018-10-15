@@ -37,7 +37,7 @@ namespace Library
 
             while (loginsuccessful == false && tries < 3)
             {
-                Console.WriteLine("Username:");
+                Console.WriteLine("UserId:");
                 usernameInput = Console.ReadLine();
                 Console.WriteLine("Password:");
                 passwordInput = Console.ReadLine();
@@ -58,7 +58,7 @@ namespace Library
                 }
                 else
                 {
-                    Console.WriteLine("Incorrect Username or Password");
+                    Console.WriteLine("Incorrect UserId or Password");
                 }
                 //Incrementing tries
                 tries++;
@@ -133,7 +133,7 @@ namespace Library
                                 Console.WriteLine("Use any of the criteria below to search the library (ex: Search -a J.K Rowling).\n\t" +
                                     "-n name of the book\n\t" +
                                     "-a author name of the book\n\t" +
-                                    "-g genere of the book\n\t" +
+                                    "-g Genre of the book\n\t" +
                                     "-y published year of the book\n\t" +
                                     "-i id of the book\n");
                             }
@@ -153,7 +153,7 @@ namespace Library
                                 Console.WriteLine("Use any of the criteria below to add a new book to the library (ex: Add -a J.K Rowling).\n\t" +                                                                        
                                     "-n name of the book\n\t" +
                                     "-a author name of the book\n\t" +
-                                    "-g genere of the book\n\t" +
+                                    "-g Genre of the book\n\t" +
                                     "-y published year of the book\n\t" +
                                     "-v availability of the book\n");
                                 Console.WriteLine("The command should be Add -n -a -g -y -a . If the one option doesn't have any value leave a space.");
@@ -276,7 +276,7 @@ namespace Library
                                     foreach (var item in currentBooks)
                                     {
                                         var bookdetails = books.GetDetails(int.Parse(item.Split(',')[0])).Split('|');
-                                        Console.WriteLine("Book ID: {5}\nBook Name : {0}\nBook Author: {1}\nBook Genere: {2}\nBook Published Year: {3}\nIssued Date: {4}",
+                                        Console.WriteLine("Book ID: {5}\nBook Name : {0}\nBook Author: {1}\nBook Genre: {2}\nBook Published Year: {3}\nIssued Date: {4}",
                                             bookdetails[1], bookdetails[3], bookdetails[2], bookdetails[3], DateTime.Parse(item.Split(',')[1]).Date.ToString(), int.Parse(item.Split(',')[0]));
                                     }
                                 }
@@ -306,7 +306,7 @@ namespace Library
                             {
                                 var bookName = "";
                                 var bookAuthor = "";
-                                var bookGenere = "";
+                                var bookGenre = "";
                                 var bookYear = 0;
                                 var bookAvailable = 1;
                                 var tempVar = 0;
@@ -319,7 +319,7 @@ namespace Library
                                             bookName = userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim();
                                             break;
                                         case "g":
-                                            bookGenere = userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim();
+                                            bookGenre = userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim();
                                             break;
                                         case "a":
                                             bookAuthor = userInputOptions[i].Split(new char[] { ' ' }, 2)[1].Trim();
@@ -341,14 +341,14 @@ namespace Library
                                             break;
                                     }
                                 }
-                                if (String.IsNullOrEmpty(bookName) || String.IsNullOrEmpty(bookGenere) || String.IsNullOrEmpty(bookAuthor) || bookYear == 0 || bookAvailable == 0)
+                                if (String.IsNullOrEmpty(bookName) || String.IsNullOrEmpty(bookGenre) || String.IsNullOrEmpty(bookAuthor) || bookYear == 0 || bookAvailable == 0)
                                 {
                                     Console.WriteLine("Invalid options or command. Try Help -Add for more information");
                                 }
                                 else
                                 {
-                                    //Console.WriteLine("calling add function with values {0},{1},{2},{3},{4}",bookName,bookAuthor,bookGenere,bookYear,bookAvailable);
-                                    books.AddBook(bookName, bookAuthor, bookGenere, Convert.ToInt32(bookYear), Convert.ToInt32(bookAvailable));
+                                    //Console.WriteLine("calling add function with values {0},{1},{2},{3},{4}",bookName,bookAuthor,bookGenre,bookYear,bookAvailable);
+                                    books.AddBook(bookName, bookAuthor, bookGenre, Convert.ToInt32(bookYear), Convert.ToInt32(bookAvailable));
                                 }
                             }
                             else
